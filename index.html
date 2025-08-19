@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>E-books Store</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header><h1 style="margin:0">E-books</h1></header>
+  <main>
+    <section class="grid" id="products"></section>
+    <p id="msg" style="text-align:center"></p>
+  </main>
+  <script>
+    // SET THIS: your Apps Script web app URL
+    const API = 'YOUR_APPS_SCRIPT_WEB_APP_URL'; // e.g. https://script.google.com/.../exec
+
+    async function loadProducts(){
+      try {
+        const res = await fetch(`${API}?path=products`);
+        const json = await res.json();
+        const products = json.products || [];
+        const wrap = document.getElementById('products');
+        if (products.length === 0) { wrap.innerHTML = '<p>No products available.</p>'; return; }
+        wrap.innerHTML = products.map(p => `
+          <article class="card">
+            <img src="${p.ImageURL||'https://picsum.photos/seed/ebook/640/360'}" alt="${p.Name}"/>
+            <div class="p">
+              <h3 style="margin:0">${p.Name}</h3>
+              <p style="margin:8px 0">${p.Description || ''}</p>
+              <p><strong>$${p.Price}</strong></p>
+              <a class="btn" href="./checkout.html?pid=${encodeURIComponent(p.ID)}">Buy now</a>
+            </div>
+          </article>
+        `).join('');
+      } catch (err) {
+        document.getElementById('msg').textContent = 'Failed to load products.';
+      }
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

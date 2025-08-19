@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header><h1 style="margin:0">Checkout</h1></header>
+  <main>
+    <form id="checkoutForm">
+      <label>Full name<br/><input id="name" required name="name"/></label><br/><br/>
+      <label>Email<br/><input required type="email" id="email" name="email"/></label><br/><br/>
+      <label>Phone (bKash/Nagad number)<br/><input id="phone" name="phone"/></label><br/><br/>
+      <label>Transaction ID (bKash/Nagad)<br/><input id="txnId" name="txnId" required/></label><br/><br/>
+      <label>Quantity<br/><input type="number" min="1" value="1" id="qty" name="qty"/></label><br/><br/>
+      <input type="hidden" id="productId" name="productId"/>
+      <button class="btn" type="submit">Place order</button>
+    </form>
+    <p id="message"></p>
+  </main>
+  <script>
+    const API = 'YOUR_APPS_SCRIPT_WEB_APP_URL'; // set
+    const urlParams = new URLSearchParams(location.search);
+    const pid = urlParams.get('pid');
+    if (!pid) { alert('No product selected'); location.href = './'; }
+    document.getElementById('productId').value = pid;
+
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        productId: pid,
+        qty: Number(document.getElementById('qty').value || 1),
+        txnId: document.getElementById('txnId').value.trim()
+      };
+      document.querySelector('.btn').disabled = true;
+      try {
+        const res = await fetch(`${API}?path=create-order`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.error) {
+          document.getElementById('message').innerHTML = `<span style="color:red">${data.error}</span>`;
+          document.querySelector('.btn').disabled = false;
+          return;
+        }
+        // success: redirect to success page with orderId
+        location.href = `./success.html?orderId=${encodeURIComponent(data.orderId)}&delivery=${encodeURIComponent(data.deliveryLink)}`;
+      } catch (err) {
+        document.getElementById('message').innerHTML = `<span style="color:red">Request failed</span>`;
+        document.querySelector('.btn').disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

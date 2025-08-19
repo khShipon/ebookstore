@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delivering your e-book</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header><h1 style="margin:0">Download</h1></header>
+  <main>
+    <p id="msg">Preparing your download…</p>
+    <p id="link"></p>
+  </main>
+  <script>
+    // deliver page hits Apps Script deliver endpoint which returns ebookUrl JSON
+    const API = 'YOUR_APPS_SCRIPT_WEB_APP_URL';
+    const params = new URLSearchParams(location.search);
+    const orderId = params.get('o');
+    const token = params.get('t');
+
+    async function fetchDelivery(){
+      if (!orderId || !token) { document.getElementById('msg').textContent = 'Invalid link'; return; }
+      try {
+        const res = await fetch(`${API}?path=deliver&o=${encodeURIComponent(orderId)}&t=${encodeURIComponent(token)}`);
+        const data = await res.json();
+        if (data.error) {
+          document.getElementById('msg').textContent = data.error;
+          return;
+        }
+        if (data.success && data.ebookUrl) {
+          // show download button and also auto-redirect
+          document.getElementById('msg').textContent = 'Download should start. If not, use the button below.';
+          const a = document.createElement('a');
+          a.className = 'btn';
+          a.href = data.ebookUrl;
+          a.target = '_blank';
+          a.textContent = 'Download E-book';
+          document.getElementById('link').appendChild(a);
+          // auto open
+          window.open(data.ebookUrl, '_blank');
+        } else {
+          document.getElementById('msg').textContent = 'Unexpected response';
+        }
+      } catch (err) {
+        document.getElementById('msg').textContent = 'Failed to fetch delivery';
+      }
+    }
+    fetchDelivery();
+  </script>
+</body>
+</html>

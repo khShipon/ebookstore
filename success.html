@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order placed</title>
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header><h1 style="margin:0">Thank you!</h1></header>
+  <main>
+    <p id="msg">Your order is created.</p>
+    <p id="download"></p>
+  </main>
+  <script>
+    // This page simply shows the delivery link returned by backend
+    const urlParams = new URLSearchParams(location.search);
+    const delivery = urlParams.get('delivery'); // apps script returned full frontend delivery link
+    const orderId = urlParams.get('orderId');
+    if (delivery) {
+      document.getElementById('msg').textContent = 'Payment verified. Use the button below to download your e-book.';
+      document.getElementById('download').innerHTML = `<a class="btn" href="${delivery}" target="_blank">Download E-book</a>`;
+    } else {
+      document.getElementById('msg').textContent = 'Order placed. Waiting for payment verification.';
+    }
+  </script>
+</body>
+</html>
