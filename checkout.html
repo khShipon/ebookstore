@@ -7,19 +7,32 @@
   <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-  <header><h1 style="margin:0">Checkout</h1></header>
+  <header class="header">
+    <a href="./index.html" class="logo">E-book Store</a>
+    <nav class="navbar">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
   <main>
     <form id="checkoutForm">
-      <label>Full name<br/><input id="name" required name="name"/></label><br/><br/>
-      <label>Email<br/><input required type="email" id="email" name="email"/></label><br/><br/>
-      <label>Phone (bKash/Nagad number)<br/><input id="phone" name="phone"/></label><br/><br/>
-      <label>Transaction ID (bKash/Nagad)<br/><input id="txnId" name="txnId" required/></label><br/><br/>
-      <label>Quantity<br/><input type="number" min="1" value="1" id="qty" name="qty"/></label><br/><br/>
+      <h2>Checkout</h2>
+      <label>Full name<input id="name" required name="name"/></label>
+      <label>Email<input required type="email" id="email" name="email"/></label>
+      <label>Phone (bKash/Nagad number)<input id="phone" name="phone"/></label>
+      <label>Transaction ID (bKash/Nagad)<input id="txnId" name="txnId" required/></label>
+      <label>Quantity<input type="number" min="1" value="1" id="qty" name="qty"/></label>
       <input type="hidden" id="productId" name="productId"/>
       <button class="btn" type="submit">Place order</button>
     </form>
-    <p id="message"></p>
+    <p id="message" style="text-align:center;"></p>
   </main>
+  <footer class="footer">
+    <p>&copy; 2025 E-book Store. All rights reserved.</p>
+  </footer>
   <script>
     const API = 'https://script.google.com/macros/s/AKfycbxPCD0UUiPsUukRzwsP9BMZzJM3_J0J5SlLsDv_ES0o19Ol2ceurZit3HftBITI4Z9I/exec'; // set
     const urlParams = new URLSearchParams(location.search);

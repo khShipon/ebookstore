@@ -7,11 +7,24 @@
   <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-  <header><h1 style="margin:0">Download</h1></header>
-  <main>
+  <header class="header">
+    <a href="./index.html" class="logo">E-book Store</a>
+    <nav class="navbar">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main style="text-align: center;">
+    <h2>Download your E-book</h2>
     <p id="msg">Preparing your download…</p>
     <p id="link"></p>
   </main>
+  <footer class="footer">
+    <p>&copy; 2025 E-book Store. All rights reserved.</p>
+  </footer>
   <script>
     // deliver page hits Apps Script deliver endpoint which returns ebookUrl JSON
     const API = 'https://script.google.com/macros/s/AKfycbxPCD0UUiPsUukRzwsP9BMZzJM3_J0J5SlLsDv_ES0o19Ol2ceurZit3HftBITI4Z9I/exec';

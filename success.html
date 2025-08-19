@@ -7,11 +7,24 @@
   <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-  <header><h1 style="margin:0">Thank you!</h1></header>
-  <main>
+  <header class="header">
+    <a href="./index.html" class="logo">E-book Store</a>
+    <nav class="navbar">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main style="text-align: center;">
+    <h2>Thank you!</h2>
     <p id="msg">Your order is created.</p>
     <p id="download"></p>
   </main>
+  <footer class="footer">
+    <p>&copy; 2025 E-book Store. All rights reserved.</p>
+  </footer>
   <script>
     // This page simply shows the delivery link returned by backend
     const urlParams = new URLSearchParams(location.search);
